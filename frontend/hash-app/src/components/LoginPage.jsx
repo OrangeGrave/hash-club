@@ -18,6 +18,7 @@ const LoginPage = () => {
     password: '',
   });
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [rememberMe, setRememberMe] = useState(false);
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -37,6 +38,14 @@ const LoginPage = () => {
   }, [motivationMessages]);
 
   useEffect(() => {
+    // Проверка сохраненных данных при загрузке
+    const savedData = localStorage.getItem('rememberedUser');
+    if (savedData) {
+      const { contact, password } = JSON.parse(savedData);
+      setFormData(prev => ({ ...prev, contact, password }));
+      setRememberMe(true);
+    }
+
     const inputs = document.querySelectorAll('.hash-login-input');
     const passwordToggle = document.querySelector('.hash-login-password-toggle');
     const password = document.getElementById('password');
@@ -125,6 +134,10 @@ const LoginPage = () => {
     setFormData(prev => ({ ...prev, [id]: value }));
   };
 
+  const handleRememberMeChange = (e) => {
+    setRememberMe(e.target.checked);
+  };
+
   const handleSubmit = (e) => {
     e.preventDefault();
     setIsSubmitting(true);
@@ -191,6 +204,11 @@ const LoginPage = () => {
       if (user) {
         localStorage.setItem('isAuthenticated', 'true');
         localStorage.setItem('currentUser', user.username);
+        if (rememberMe) {
+          localStorage.setItem('rememberedUser', JSON.stringify({ contact: formData.contact, password: formData.password }));
+        } else {
+          localStorage.removeItem('rememberedUser');
+        }
         setTimeout(() => {
           navigate('/feed');
           setIsSubmitting(false);
@@ -265,6 +283,15 @@ const LoginPage = () => {
                     <circle cx="12" cy="12" r="3"></circle>
                   </svg>
                 </button>
+              </div>
+              <div className="hash-login-remember-me">
+                <input
+                  type="checkbox"
+                  id="rememberMe"
+                  checked={rememberMe}
+                  onChange={handleRememberMeChange}
+                />
+                <label htmlFor="rememberMe">Запомнить пароль</label>
               </div>
               <div className="hash-login-security-info">
                 <span className="hash-login-security-icon">

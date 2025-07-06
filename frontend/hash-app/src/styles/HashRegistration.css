@@ -246,6 +246,9 @@ body {
 
 .hash-registration-field {
   position: relative;
+  display: flex;
+  align-items: center;
+  height: 3.5rem; /* Фиксированная высота для стабильности */
   animation: fadeIn 0.4s ease-out;
 }
 
@@ -281,6 +284,8 @@ body {
   pointer-events: auto !important;
   user-select: text !important;
   cursor: text !important;
+  height: 100%; /* Занимает всю высоту контейнера */
+  box-sizing: border-box;
 }
 
 .hash-registration-input:focus {
@@ -407,14 +412,22 @@ body {
 }
 
 .hash-registration-error-message {
-  color: #f87171;
+  position: absolute;
+  bottom: -1.5rem; /* Позиционирование под полем */
+  left: 0;
+  color: #eb6666; /* Красный цвет */
   font-size: 0.75rem;
   font-weight: 500;
-  margin-top: 0.5rem;
   display: flex;
   align-items: center;
   gap: 0.375rem;
   animation: slideIn 0.3s ease-out;
+  width: 100%;
+  box-sizing: border-box;
+  padding: 0.25rem 0;
+  /* background: rgba(247, 113, 113, 0.1); Легкий фон для видимости */
+  border-radius: 0.25rem;
+  z-index: 1;
 }
 
 @keyframes slideIn {
@@ -640,5 +653,10 @@ body {
 
   .hash-registration-form {
     padding: 0.75rem;
+  }
+
+  .hash-registration-error-message {
+    bottom: -1.25rem; /* Уменьшено для мобильных */
+    font-size: 0.7rem;
   }
 }

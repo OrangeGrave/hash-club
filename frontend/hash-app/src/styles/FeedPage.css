@@ -1,19 +1,20 @@
 @import url("https://fonts.googleapis.com/css2?family=B612:wght@400;700&display=swap");
 
+/* Сброс стилей и базовые настройки */
 html,
 body {
   margin: 0;
   padding: 0;
   overflow-x: hidden;
-  width: 100vw;
-  height: 100vh;
-  box-sizing: border-box;
+  min-height: 100vh;
+  width: 100%;
 }
 
 * {
   box-sizing: border-box;
 }
 
+/* Основной контейнер FeedPage */
 .hash-feed {
   min-height: 100vh;
   background: linear-gradient(
@@ -34,15 +35,39 @@ body {
   flex-direction: column;
 }
 
+/* Контент с прокруткой */
 .hash-feed-content {
   flex: 1 1 auto;
   overflow-y: auto;
-  max-height: calc(100vh - 4rem); /* Учитываем фиксированную кнопку */
+  overflow-x: hidden;
+  max-height: calc(100vh - 4rem);
   padding-bottom: 4rem;
   width: 100%;
   box-sizing: border-box;
+  -webkit-overflow-scrolling: touch;
 }
 
+/* Стили для скроллбара */
+.hash-feed-content::-webkit-scrollbar {
+  width: 8px;
+}
+
+.hash-feed-content::-webkit-scrollbar-track {
+  background: rgba(30, 41, 59, 0.7);
+  border-radius: 4px;
+}
+
+.hash-feed-content::-webkit-scrollbar-thumb {
+  background: linear-gradient(135deg, #1e40af 0%, #1e3a8a 100%);
+  border-radius: 4px;
+  box-shadow: inset 0 0 6px rgba(30, 64, 175, 0.3);
+}
+
+.hash-feed-content::-webkit-scrollbar-thumb:hover {
+  background: linear-gradient(135deg, #1d4ed8 0%, #1e3a8a 100%);
+}
+
+/* Анимация градиента */
 @keyframes subtleGradient {
   0%,
   100% {
@@ -53,6 +78,7 @@ body {
   }
 }
 
+/* Декоративные элементы */
 .hash-feed::before {
   content: "";
   position: absolute;
@@ -99,20 +125,19 @@ body {
   }
 }
 
+/* Заголовок */
 .hash-feed-header {
   position: sticky;
   top: 0;
   background: rgba(30, 41, 59, 0.7);
   backdrop-filter: blur(10px);
   border-bottom: 1px solid rgba(71, 85, 105, 0.3);
-  padding: 1rem 1rem;
+  padding: 1rem;
+  z-index: 100;
+  width: 100%;
   display: flex;
   align-items: center;
   justify-content: space-between;
-  z-index: 100;
-  width: 100%;
-  max-width: 100vw;
-  box-sizing: border-box;
 }
 
 .hash-feed-title {
@@ -130,7 +155,7 @@ body {
   max-width: 90%;
 }
 
-.hash-feed-search {
+pler.hash-feed-search {
   position: relative;
   width: 100%;
   max-width: 18rem;
@@ -202,13 +227,12 @@ body {
   transform: translateY(-1px);
 }
 
+/* Контейнер для постов */
 .hash-feed-container {
   max-width: 48rem;
   margin: 1.5rem auto;
   padding: 0 0.5rem;
   width: 100%;
-  box-sizing: border-box;
-  max-height: 100%;
 }
 
 .hash-feed-posts {
@@ -323,6 +347,7 @@ body {
   padding: 1.5rem;
 }
 
+/* Кнопка "Создать заявку" */
 .hash-feed-create-button {
   position: fixed;
   bottom: 1.5rem;
@@ -338,7 +363,7 @@ body {
   transition: all 0.2s ease;
   box-shadow: 0 4px 8px rgba(30, 64, 175, 0.3);
   z-index: 100;
-  max-width: calc(100vw - 3rem); /* Предотвращаем выход за экран */
+  max-width: calc(100vw - 3rem);
 }
 
 .hash-feed-create-button:hover {
@@ -346,11 +371,7 @@ body {
   transform: translateY(-1px);
 }
 
-.hash-feed-create-button:active {
-  transform: translateY(0);
-}
-
-/* Медиа-запросы */
+/* Медиа-запросы для адаптивности */
 @media (max-width: 768px) {
   .hash-feed-header {
     padding: 0.75rem;

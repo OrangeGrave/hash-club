@@ -9,14 +9,14 @@ const FeedPage = () => {
     { id: 2, username: 'coder123', text: 'Ищу команду для хакатона!', status: 'pending' },
     { id: 3, username: 'dev_guru', text: 'Продам курс по JavaScript', status: 'pending' },
     { id: 4, username: 'techie', text: 'Нужен ментор по Python', status: 'pending' },
-    { id: 5, username: 'techie', text: 'Нужен ментор по Python', status: 'pending' },
-    { id: 6, username: 'techie', text: 'Нужен ментор по Python', status: 'pending' },
-    { id: 7, username: 'techie', text: 'Нужен ментор по Python', status: 'pending' },
-    { id: 8, username: 'techie', text: 'Нужен ментор по Python', status: 'pending' },
-    { id: 9, username: 'techie', text: 'Нужен ментор по Python', status: 'pending' },
-    { id: 10, username: 'techie', text: 'Нужен ментор по Python', status: 'pending' },
-    { id: 11, username: 'techie', text: 'Нужен ментор по Python', status: 'pending' },
-    { id: 12, username: 'techie', text: 'Нужен ментор по Python', status: 'pending' },
+    { id: 5, username: 'web_dev', text: 'Ищу партнера для стартапа', status: 'pending' },
+    { id: 6, username: 'js_ninja', text: 'Делюсь опытом по Node.js', status: 'pending' },
+    { id: 7, username: 'ai_lover', text: 'Кто знает хорошие курсы по ML?', status: 'pending' },
+    { id: 8, username: 'frontend_guru', text: 'Нужна помощь с CSS Grid', status: 'pending' },
+    { id: 9, username: 'backend_pro', text: 'Ищу работу на Django', status: 'pending' },
+    { id: 10, username: 'devops', text: 'Настрою CI/CD для вашего проекта', status: 'pending' },
+    { id: 11, username: 'mobile_dev', text: 'Ищу фриланс по Flutter', status: 'pending' },
+    { id: 12, username: 'designer', text: 'Создам UI/UX дизайн для приложения', status: 'pending' },
   ];
 
   const [posts, setPosts] = useState(mockPosts);
@@ -43,17 +43,21 @@ const FeedPage = () => {
   };
 
   const handleAccept = (id) => {
+    const postExists = posts.find(post => post.id === id);
+    if (!postExists) return;
     console.log(`Заявка ${id} принята`);
     setPosts(prev => prev.map(post => post.id === id ? { ...post, status: 'accepted' } : post));
   };
 
   const handleReject = (id) => {
+    const postExists = posts.find(post => post.id === id);
+    if (!postExists) return;
     console.log(`Заявка ${id} отклонена`);
     setPosts(prev => prev.map(post => post.id === id ? { ...post, status: 'rejected' } : post));
   };
 
   const handleCreatePost = () => {
-    console.log('Открыть форму создания заявки');
+    navigate('/create-post'); // Предполагается, что есть маршрут для создания поста
   };
 
   return (
@@ -91,60 +95,63 @@ const FeedPage = () => {
           Выйти
         </button>
       </header>
-      <div className="hash-feed-container">
-        <div className="hash-feed-posts">
-          {filteredPosts.length > 0 ? (
-            filteredPosts.map((post, index) => (
-              <div key={post.id} className="hash-feed-post" style={{ animationDelay: `${index * 0.1}s` }}>
-                <div className="hash-feed-post-header">
-                  <Link to={`/profile/${post.username}`} className="hash-feed-post-username">
-                    <span className="hash-feed-post-icon">
-                      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                        <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
-                        <circle cx="12" cy="7" r="4"></circle>
+      <div className="hash-feed-content">
+        <div className="hash-feed-container">
+          <div className="hash-feed-posts">
+            {filteredPosts.length > 0 ? (
+              filteredPosts.map((post, index) => (
+                <div key={post.id} className="hash-feed-post" style={{ animationDelay: `${index * 0.1}s` }}>
+                  <div className="hash-feed-post-header">
+                    <Link to={`/profile/${post.username}`} className="hash-feed-post-username">
+                      <span className="hash-feed-post-icon">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                          <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
+                          <circle cx="12" cy="7" r="4"></circle>
+                        </svg>
+                      </span>
+                      {post.username}
+                    </Link>
+                  </div>
+                  <p className="hash-feed-post-text">{post.text}</p>
+                  <div className="hash-feed-post-actions">
+                    <button
+                      className={`hash-feed-post-button accept ${post.status === 'accepted' ? 'disabled' : ''}`}
+                      onClick={() => handleAccept(post.id)}
+                      disabled={post.status === 'accepted' || post.status === 'rejected'}
+                      aria-label={`Принять заявку от ${post.username}`}
+                      title="Принять"
+                    >
+                      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#28a745" strokeWidth="2">
+                        <polyline points="20 6 9 17 4 12"></polyline>
                       </svg>
-                    </span>
-                    {post.username}
-                  </Link>
+                    </button>
+                    <button
+                      className={`hash-feed-post-button reject ${post.status === 'rejected' ? 'disabled' : ''}`}
+                      onClick={() => handleReject(post.id)}
+                      disabled={post.status === 'accepted' || post.status === 'rejected'}
+                      aria-label={`Отклонить заявку от ${post.username}`}
+                      title="Отклонить"
+                    >
+                      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#dc3545" strokeWidth="2">
+                        <circle cx="12" cy="12" r="10"></circle>
+                        <line x1="8" y1="8" x2="16" y2="16"></line>
+                        <line x1="8" y1="16" x2="16" y2="8"></line>
+                      </svg>
+                    </button>
+                  </div>
                 </div>
-                <p className="hash-feed-post-text">{post.text}</p>
-                <div className="hash-feed-post-actions">
-                  <button
-                    className={`hash-feed-post-button accept ${post.status === 'accepted' ? 'disabled' : ''}`}
-                    onClick={() => handleAccept(post.id)}
-                    disabled={post.status === 'accepted' || post.status === 'rejected'}
-                    aria-label={`Принять заявку от ${post.username}`}
-                    title="Принять"
-                  >
-                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#28a745" strokeWidth="2">
-                      <polyline points="20 6 9 17 4 12"></polyline>
-                    </svg>
-                  </button>
-                  <button
-                    className={`hash-feed-post-button reject ${post.status === 'rejected' ? 'disabled' : ''}`}
-                    onClick={() => handleReject(post.id)}
-                    disabled={post.status === 'accepted' || post.status === 'rejected'}
-                    aria-label={`Отклонить заявку от ${post.username}`}
-                    title="Отклонить"
-                  >
-                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#dc3545" strokeWidth="2">
-                      <circle cx="12" cy="12" r="10"></circle>
-                      <line x1="8" y1="8" x2="16" y2="16"></line>
-                      <line x1="8" y1="16" x2="16" y2="8"></line>
-                    </svg>
-                  </button>
-                </div>
-              </div>
-            ))
-          ) : (
-            <p className="hash-feed-no-posts">Заявки не найдены</p>
-          )}
+              ))
+            ) : (
+              <p className="hash-feed-no-posts">Заявки не найдены</p>
+            )}
+          </div>
         </div>
       </div>
       <button
         className="hash-feed-create-button"
         onClick={handleCreatePost}
         aria-label="Создать новую заявку"
+        title="Создать новую заявку"
       >
         Создать заявку
       </button>

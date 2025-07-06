@@ -234,6 +234,39 @@
   flex-direction: column;
   gap: 1.5rem;
 }
+.hash-login-form-content {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.hash-login-field {
+  position: relative;
+  display: flex;
+  align-items: center;
+  height: 3.5rem;
+  animation: fadeIn 0.4s ease-out;
+}
+
+.hash-login-remember-me {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  color: #94a3b8;
+  font-size: 0.9rem;
+}
+
+.hash-login-remember-me input[type="checkbox"] {
+  width: 1.2rem;
+  height: 1.2rem;
+  accent-color: #3b82f6;
+  cursor: pointer;
+}
+
+.hash-login-remember-me label {
+  margin: 0;
+  cursor: pointer;
+}
 
 .hash-login-field {
   position: relative;
