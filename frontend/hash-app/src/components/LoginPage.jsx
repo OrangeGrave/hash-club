@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import '../styles/LoginPage.css';
+import '../styles/LoginPage.css'; // Убедитесь, что файл импортирован правильно
 
 const LoginPage = () => {
   const motivationMessages = [
@@ -48,9 +48,9 @@ const LoginPage = () => {
     passwordToggle.addEventListener('click', function () {
       isPasswordVisible = !isPasswordVisible;
       password.type = isPasswordVisible ? 'text' : 'password';
-      this.innerHTML = isPasswordVisible ?
-        '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19m-6.72-1.07a3 3 0 1 1-4.24-4.24"></path><line x1="1" y1="1" x2="23" y2="23"></line></svg>' :
-        '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path><circle cx="12" cy="12" r="3"></circle></svg>';
+      this.innerHTML = isPasswordVisible
+        ? '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19m-6.72-1.07a3 3 0 1 1-4.24-4.24"></path><line x1="1" y1="1" x2="23" y2="23"></line></svg>'
+        : '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path><circle cx="12" cy="12" r="3"></circle></svg>';
     });
 
     contactInput.addEventListener('input', function () {
@@ -209,91 +209,93 @@ const LoginPage = () => {
 
   return (
     <div className="hash-login">
-      <div className="hash-login-container">
-        <div className="hash-login-header">
-          <div className="hash-login-logo">
-            <span className="hash-login-logo-text">#</span>
-          </div>
-          <h1 className="hash-login-title">Вход</h1>
-          <p className={`hash-login-subtitle ${isFading ? 'fade' : 'visible'}`}>
-            {currentMessage}
-          </p>
-        </div>
-        <div className="hash-login-form">
-          <div className="hash-login-form-content">
-            <div className="hash-login-field">
-              <span className="hash-login-field-icon">
-                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                  <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path>
-                  <polyline points="22,6 12,13 2,6"></polyline>
-                </svg>
-              </span>
-              <input
-                type="text"
-                className="hash-login-input"
-                placeholder="Email или телефон"
-                id="contact"
-                value={formData.contact}
-                onChange={handleInputChange}
-              />
-              <span className="hash-login-field-status success" style={{ display: 'none' }}>
-                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                  <polyline points="20,6 9,17 4,12"></polyline>
-                </svg>
-              </span>
+      <div className="hash-login-content">
+        <div className="hash-login-container">
+          <div className="hash-login-header">
+            <div className="hash-login-logo">
+              <span className="hash-login-logo-text">#</span>
             </div>
-            <div className="hash-login-field">
-              <span className="hash-login-field-icon">
-                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                  <rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect>
-                  <circle cx="12" cy="16" r="1"></circle>
-                  <path d="M7 11V7a5 5 0 0 1 10 0v4"></path>
-                </svg>
-              </span>
-              <input
-                type="password"
-                className="hash-login-input"
-                placeholder="Пароль"
-                id="password"
-                value={formData.password}
-                onChange={handleInputChange}
-              />
-              <button type="button" className="hash-login-password-toggle">
-                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                  <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
-                  <circle cx="12" cy="12" r="3"></circle>
-                </svg>
+            <h1 className="hash-login-title">Вход</h1>
+            <p className={`hash-login-subtitle ${isFading ? 'fade' : 'visible'}`}>
+              {currentMessage}
+            </p>
+          </div>
+          <div className="hash-login-form">
+            <div className="hash-login-form-content">
+              <div className="hash-login-field">
+                <span className="hash-login-field-icon">
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path>
+                    <polyline points="22,6 12,13 2,6"></polyline>
+                  </svg>
+                </span>
+                <input
+                  type="text"
+                  className="hash-login-input"
+                  placeholder="Email или телефон"
+                  id="contact"
+                  value={formData.contact}
+                  onChange={handleInputChange}
+                />
+                <span className="hash-login-field-status success" style={{ display: 'none' }}>
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <polyline points="20,6 9,17 4,12"></polyline>
+                  </svg>
+                </span>
+              </div>
+              <div className="hash-login-field">
+                <span className="hash-login-field-icon">
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect>
+                    <circle cx="12" cy="16" r="1"></circle>
+                    <path d="M7 11V7a5 5 0 0 1 10 0v4"></path>
+                  </svg>
+                </span>
+                <input
+                  type="password"
+                  className="hash-login-input"
+                  placeholder="Пароль"
+                  id="password"
+                  value={formData.password}
+                  onChange={handleInputChange}
+                />
+                <button type="button" className="hash-login-password-toggle">
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
+                    <circle cx="12" cy="12" r="3"></circle>
+                  </svg>
+                </button>
+              </div>
+              <div className="hash-login-security-info">
+                <span className="hash-login-security-icon">
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path>
+                  </svg>
+                </span>
+                <span>Данные защищены сквозным шифрованием</span>
+              </div>
+              <button
+                type="submit"
+                className="hash-login-submit"
+                onClick={handleSubmit}
+                disabled={isSubmitting}
+              >
+                <span className="hash-login-loading" style={{ display: isSubmitting ? 'flex' : 'none' }}>
+                  <span className="hash-login-spinner"></span>
+                  Вход...
+                </span>
+                <span className="hash-login-submit-text" style={{ display: isSubmitting ? 'none' : 'block' }}>
+                  Войти
+                </span>
               </button>
             </div>
-            <div className="hash-login-security-info">
-              <span className="hash-login-security-icon">
-                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                  <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path>
-                </svg>
-              </span>
-              <span>Данные защищены сквозным шифрованием</span>
-            </div>
-            <button
-              type="submit"
-              className="hash-login-submit"
-              onClick={handleSubmit}
-              disabled={isSubmitting}
-            >
-              <span className="hash-login-loading" style={{ display: isSubmitting ? 'flex' : 'none' }}>
-                <span className="hash-login-spinner"></span>
-                Вход...
-              </span>
-              <span className="hash-login-submit-text" style={{ display: isSubmitting ? 'none' : 'block' }}>
-                Войти
-              </span>
-            </button>
           </div>
-        </div>
-        <div className="hash-login-links">
-          <p>Нет аккаунта? <Link to="/registration" className="hash-login-link">Зарегистрироваться</Link></p>
-        </div>
-        <div className="hash-login-footer">
-          <p>© 2025 Hash. <a href="#">Условия использования</a> · <a href="#">Конфиденциальность</a></p>
+          <div className="hash-login-links">
+            <p>Нет аккаунта? <Link to="/registration" className="hash-login-link">Зарегистрироваться</Link></p>
+          </div>
+          <div className="hash-login-footer">
+            <p>© 2025 Hash. <a href="#">Условия использования</a> · <a href="#">Конфиденциальность</a></p>
+          </div>
         </div>
       </div>
     </div>

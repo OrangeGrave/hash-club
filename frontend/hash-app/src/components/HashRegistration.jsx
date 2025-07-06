@@ -281,133 +281,135 @@ const HashRegistration = () => {
 
   return (
     <div className="hash-registration">
-      <div className="hash-registration-container">
-        <div className="hash-registration-header">
-          <div className="hash-registration-logo">
-            <span className="hash-registration-logo-text">#</span>
+      <div className="hash-registration-content">
+        <div className="hash-registration-container">
+          <div className="hash-registration-header">
+            <div className="hash-registration-logo">
+              <span className="hash-registration-logo-text">#</span>
+            </div>
+            <h1 className="hash-registration-title">Регистрация</h1>
+            <p className={`hash-registration-subtitle ${isFading ? 'fade' : 'visible'}`}>
+              {currentMessage}
+            </p>
           </div>
-          <h1 className="hash-registration-title">Регистрация</h1>
-          <p className={`hash-registration-subtitle ${isFading ? 'fade' : 'visible'}`}>
-            {currentMessage}
-          </p>
-        </div>
-        <form className="hash-registration-form" onSubmit={handleSubmit}>
-          <div className="hash-registration-form-content">
-            <div className="hash-registration-field">
-              <span className="hash-registration-field-icon">
-                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                  <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
-                  <circle cx="12" cy="7" r="4"></circle>
-                </svg>
-              </span>
-              <input
-                type="text"
-                className="hash-registration-input"
-                placeholder="Имя пользователя"
-                id="username"
-                value={formData.username}
-                onChange={handleInputChange}
-              />
-              <span className="hash-registration-field-status success" style={{ display: 'none' }}>
-                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                  <polyline points="20,6 9,17 4,12"></polyline>
-                </svg>
-              </span>
-            </div>
-            <div className="hash-registration-field">
-              <span className="hash-registration-field-icon">
-                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                  <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path>
-                  <polyline points="22,6 12,13 2,6"></polyline>
-                </svg>
-              </span>
-              <input
-                type="text"
-                className="hash-registration-input"
-                placeholder="Email или телефон"
-                id="contact"
-                value={formData.contact}
-                onChange={handleInputChange}
-              />
-              <span className="hash-registration-field-status success" style={{ display: 'none' }}>
-                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                  <polyline points="20,6 9,17 4,12"></polyline>
-                </svg>
-              </span>
-            </div>
-            <div className="hash-registration-field">
-              <span className="hash-registration-field-icon">
-                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                  <rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect>
-                  <circle cx="12" cy="16" r="1"></circle>
-                  <path d="M7 11V7a5 5 0 0 1 10 0v4"></path>
-                </svg>
-              </span>
-              <input
-                type="password"
-                className="hash-registration-input"
-                placeholder="Пароль"
-                id="password"
-                value={formData.password}
-                onChange={handleInputChange}
-              />
-              <button type="button" className="hash-registration-password-toggle">
-                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                  <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
-                  <circle cx="12" cy="12" r="3"></circle>
-                </svg>
+          <form className="hash-registration-form" onSubmit={handleSubmit}>
+            <div className="hash-registration-form-content">
+              <div className="hash-registration-field">
+                <span className="hash-registration-field-icon">
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                    <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
+                    <circle cx="12" cy="7" r="4"></circle>
+                  </svg>
+                </span>
+                <input
+                  type="text"
+                  className="hash-registration-input"
+                  placeholder="Имя пользователя"
+                  id="username"
+                  value={formData.username}
+                  onChange={handleInputChange}
+                />
+                <span className="hash-registration-field-status success" style={{ display: 'none' }}>
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                    <polyline points="20,6 9,17 4,12"></polyline>
+                  </svg>
+                </span>
+              </div>
+              <div className="hash-registration-field">
+                <span className="hash-registration-field-icon">
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                    <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path>
+                    <polyline points="22,6 12,13 2,6"></polyline>
+                  </svg>
+                </span>
+                <input
+                  type="text"
+                  className="hash-registration-input"
+                  placeholder="Email или телефон"
+                  id="contact"
+                  value={formData.contact}
+                  onChange={handleInputChange}
+                />
+                <span className="hash-registration-field-status success" style={{ display: 'none' }}>
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                    <polyline points="20,6 9,17 4,12"></polyline>
+                  </svg>
+                </span>
+              </div>
+              <div className="hash-registration-field">
+                <span className="hash-registration-field-icon">
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                    <rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect>
+                    <circle cx="12" cy="16" r="1"></circle>
+                    <path d="M7 11V7a5 5 0 0 1 10 0v4"></path>
+                  </svg>
+                </span>
+                <input
+                  type="password"
+                  className="hash-registration-input"
+                  placeholder="Пароль"
+                  id="password"
+                  value={formData.password}
+                  onChange={handleInputChange}
+                />
+                <button type="button" className="hash-registration-password-toggle">
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                    <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
+                    <circle cx="12" cy="12" r="3"></circle>
+                  </svg>
+                </button>
+              </div>
+              <div className="hash-registration-field">
+                <span className="hash-registration-field-icon">
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                    <rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect>
+                    <circle cx="12" cy="16" r="1"></circle>
+                    <path d="M7 11V7a5 5 0 0 1 10 0v4"></path>
+                  </svg>
+                </span>
+                <input
+                  type="password"
+                  className="hash-registration-input"
+                  placeholder="Повторите пароль"
+                  id="confirm-password"
+                  value={formData.confirmPassword}
+                  onChange={handleInputChange}
+                />
+                <span className="hash-registration-field-status success" style={{ display: 'none' }}>
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                    <polyline points="20,6 9,17 4,12"></polyline>
+                  </svg>
+                </span>
+              </div>
+              <div className="hash-registration-security-info">
+                <span className="hash-registration-security-icon">
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                    <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path>
+                  </svg>
+                </span>
+                <span>Данные защищены сквозным шифрованием</span>
+              </div>
+              <button
+                type="submit"
+                className="hash-registration-submit"
+                disabled={isSubmitting}
+              >
+                <span className="hash-registration-loading" style={{ display: isSubmitting ? 'flex' : 'none' }}>
+                  <span className="hash-registration-spinner"></span>
+                  Создание аккаунта...
+                </span>
+                <span className="hash-registration-submit-text" style={{ display: isSubmitting ? 'none' : 'block' }}>
+                  Зарегистрироваться
+                </span>
               </button>
             </div>
-            <div className="hash-registration-field">
-              <span className="hash-registration-field-icon">
-                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                  <rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect>
-                  <circle cx="12" cy="16" r="1"></circle>
-                  <path d="M7 11V7a5 5 0 0 1 10 0v4"></path>
-                </svg>
-              </span>
-              <input
-                type="password"
-                className="hash-registration-input"
-                placeholder="Повторите пароль"
-                id="confirm-password"
-                value={formData.confirmPassword}
-                onChange={handleInputChange}
-              />
-              <span className="hash-registration-field-status success" style={{ display: 'none' }}>
-                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                  <polyline points="20,6 9,17 4,12"></polyline>
-                </svg>
-              </span>
-            </div>
-            <div className="hash-registration-security-info">
-              <span className="hash-registration-security-icon">
-                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                  <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path>
-                </svg>
-              </span>
-              <span>Данные защищены сквозным шифрованием</span>
-            </div>
-            <button
-              type="submit"
-              className="hash-registration-submit"
-              disabled={isSubmitting}
-            >
-              <span className="hash-registration-loading" style={{ display: isSubmitting ? 'flex' : 'none' }}>
-                <span className="hash-registration-spinner"></span>
-                Создание аккаунта...
-              </span>
-              <span className="hash-registration-submit-text" style={{ display: isSubmitting ? 'none' : 'block' }}>
-                Зарегистрироваться
-              </span>
-            </button>
+          </form>
+          <div className="hash-registration-links">
+            <p>Уже есть аккаунт? <a href="/login" className="hash-registration-link">Войти</a></p>
           </div>
-        </form>
-        <div className="hash-registration-links">
-          <p>Уже есть аккаунт? <a href="/login" className="hash-registration-link">Войти</a></p>
-        </div>
-        <div className="hash-registration-footer">
-          <p>© 2025 Hash. <a href="#">Условия использования</a> · <a href="#">Конфиденциальность</a></p>
+          <div className="hash-registration-footer">
+            <p>© 2025 Hash. <a href="#">Условия использования</a> · <a href="#">Конфиденциальность</a></p>
+          </div>
         </div>
       </div>
     </div>
