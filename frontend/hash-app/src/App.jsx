@@ -5,6 +5,7 @@ import LoginPage from './components/LoginPage';
 import FeedPage from './components/FeedPage';
 import WelcomePage from './components/WelcomePage';
 import ProtectedRoute from './components/ProtectedRoute';
+import ProfilePage from './components/ProfilePage';
 
 const App = () => {
   return (
@@ -12,6 +13,7 @@ const App = () => {
       <Route path="/welcome" element={<WelcomePage />} />
       <Route path="/registration" element={<HashRegistration />} />
       <Route path="/login" element={<LoginPage />} />
+      <Route path="/profile" element={<ProfilePage />} />
       <Route
         path="/feed"
         element={
