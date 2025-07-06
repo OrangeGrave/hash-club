@@ -4,11 +4,11 @@ import '../styles/HashRegistration.css';
 
 const HashRegistration = () => {
   const motivationMessages = [
-    'Присоединяйтесь к Hash сегодня',
-    'Создайте свой профиль с Hash',
-    'Найдите единомышленников с Hash',
-    'Начните свое путешествие с Hash',
-    'Станьте частью сообщества Hash',
+    'Присоединяйтесь к HASH сегодня',
+    'Создайте свой профиль с HASH',
+    'Найдите единомышленников с HASH',
+    'Начните свое путешествие с HASH',
+    'Станьте частью сообщества HASH',
   ];
 
   const [currentMessage, setCurrentMessage] = useState(motivationMessages[0]);
