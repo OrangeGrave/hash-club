@@ -1,30 +1,41 @@
 import React, { useEffect, useState } from 'react';
-import { Navigate } from 'react-router-dom';
+import { Navigate, useLocation } from 'react-router-dom';
 import api from '../services/api';
 
 const ProtectedRoute = ({ children }) => {
-  const [isAuthenticated, setIsAuthenticated] = useState(true); // Предполагаем аутентификацию
+  const location = useLocation();
+  const [isAuthenticated, setIsAuthenticated] = useState(null);
 
   useEffect(() => {
     const checkAuth = async () => {
       try {
-        console.log('Проверка аутентификации на /feed...');
-        const response = await api.get('/feed', {
-          withCredentials: true, // Отправка HttpOnly куки
-        });
-        console.log('Ответ от /feed:', response.status, response.data);
+        const response = await api.get('/feed', { withCredentials: true });
         setIsAuthenticated(response.status === 200);
-      } catch (error) {
-        console.error('Ошибка проверки аутентификации:', error.response ? error.response.status : error.message, error.response ? error.response.data : '');
+      } catch {
         setIsAuthenticated(false);
       }
     };
 
-    // Проверяем аутентификацию в фоне
     checkAuth();
-  }, []);
+  }, [location.pathname]);
 
-  // Мгновенный рендер без лоадера, редирект только если проверка провалится
+  if (isAuthenticated === null) {
+    // мгновенно показываем оверлей-заглушку
+    return (
+      <div
+        style={{
+          position: 'fixed',
+          top: 0,
+          left: 0,
+          width: '100vw',
+          height: '100vh',
+          background: '#111', // можно любой цвет
+          zIndex: 9999,
+        }}
+      />
+    );
+  }
+
   if (!isAuthenticated) {
     return <Navigate to="/login" replace />;
   }
