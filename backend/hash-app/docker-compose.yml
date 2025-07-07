@@ -1,5 +1,4 @@
-# backend/docker-compose.yml
-version: '3.8'
+version: "3.8"
 services:
   db:
     image: postgres:15
@@ -15,10 +14,9 @@ services:
     build: .
     restart: on-failure
     env_file:
-      - .env               # <-- подтягиваем переменные в контейнер
-# Если хотите, чтобы godotenv.Load() нашёл файл:
+      - .env
     volumes:
-      - ./.env:/.env       # монтируем локальный .env в корень контейнера
+      - ./.env:/.env
     ports:
       - "7777:7777"
     environment:
@@ -33,6 +31,17 @@ services:
       PG_SSLMODE: "disable"
     depends_on:
       - db
+
+  frontend:
+    build:
+      context: ../frontend # Путь к папке фронтенда
+      dockerfile: Dockerfile
+    ports:
+      - "5173:5173"
+    depends_on:
+      - backend
+    environment:
+      - VITE_API_URL=http://localhost:7773/api # Переменная окружения для фронтенда
 
 volumes:
   db_data:
