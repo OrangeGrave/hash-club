@@ -1,4 +1,3 @@
-// middleware/jwt_middleware.go
 package middleware
 
 import (
@@ -10,7 +9,6 @@ import (
 	"github.com/labstack/echo/v4"
 )
 
-// JWT возвращает middleware для проверки JWT-токена из куки
 func JWT() echo.MiddlewareFunc {
 	return func(next echo.HandlerFunc) echo.HandlerFunc {
 		return func(c echo.Context) error {
@@ -26,7 +24,7 @@ func JWT() echo.MiddlewareFunc {
 					log.Printf("Invalid signing method: %v", token.Method)
 					return nil, echo.NewHTTPError(http.StatusUnauthorized, "invalid signing method")
 				}
-				return []byte(config.JwtSecret), nil // 🔥 fix: передаём []byte!
+				return []byte(config.JwtSecret), nil
 			})
 
 			if err != nil || !token.Valid {

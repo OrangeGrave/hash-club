@@ -25,19 +25,16 @@ var (
 )
 
 func Init() {
-	// загрузить .env
 	if err := godotenv.Load(); err != nil {
 		log.Printf("No .env file found or error loading .env: %v", err)
 	}
 
-	// порт сервера
 	if p := os.Getenv("SERVER_PORT"); p != "" {
 		ServerPort = p
 	} else {
 		ServerPort = ":7777"
 	}
 
-	// TTL для JWT
 	ttlStr := getEnv("JWT_TTL_HOURS", "24")
 	if d, err := time.ParseDuration(ttlStr + "h"); err != nil {
 		TokenTTL = 24 * time.Hour
@@ -45,13 +42,11 @@ func Init() {
 		TokenTTL = d
 	}
 
-	// секрет для подписи JWT
 	JwtSecret = os.Getenv("JWT_SECRET")
 	if strings.TrimSpace(JwtSecret) == "" {
 		log.Fatal("Environment variable JWT_SECRET must be set")
 	}
 
-	// подключение к Postgres
 	ConnectPostgres()
 }
 
@@ -90,7 +85,6 @@ func ConnectPostgres() {
 	DB = gormDB
 	log.Printf("Connected to Postgres %s@%s:%s/%s (sslmode=%s)", user, host, port, dbName, ssl)
 
-	// авто-миграция
 	if err := DB.AutoMigrate(&models.User{}); err != nil {
 		log.Fatalf("AutoMigrate User error: %v", err)
 	}

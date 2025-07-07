@@ -1,4 +1,3 @@
-// repository/user_repository.go
 package repository
 
 import (
@@ -44,7 +43,6 @@ func (r *UserRepository) FindByEmail(ctx context.Context, email string) (*models
 	return &u, err
 }
 
-// Новый метод: ищем по email ИЛИ phone
 func (r *UserRepository) FindByIdentity(ctx context.Context, identity string) (*models.User, error) {
 	var u models.User
 	err := r.DB.WithContext(ctx).

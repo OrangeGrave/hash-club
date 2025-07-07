@@ -17,6 +17,7 @@ services:
       - .env
     volumes:
       - ./.env:/.env
+      - ./.env:/.env
     ports:
       - "7777:7777"
     environment:
