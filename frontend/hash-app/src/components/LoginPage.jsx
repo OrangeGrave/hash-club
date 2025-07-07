@@ -119,11 +119,6 @@ const LoginPage = () => {
 
         console.log('Ответ от сервера:', response.data);
         if (response.status === 200) {
-          const token = Cookies.get('jwt_token');
-          console.log(token)
-          if (token) {
-            localStorage.setItem('isAuthenticated', 'true');
-            localStorage.setItem('currentUser', formData.identity); // Обновите на основе данных от бэкенда, если доступно
           // Поскольку токен HttpOnly, полагаемся на успешный ответ сервера
           localStorage.setItem('isAuthenticated', 'true');
           localStorage.setItem('currentUser', formData.identity);
