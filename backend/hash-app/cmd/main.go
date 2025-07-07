@@ -35,7 +35,7 @@ func main() {
 	e.Use(echoMw.Recover())
 
 	e.Use(echoMw.CORSWithConfig(echoMw.CORSConfig{
-		AllowOrigins:     []string{"http://localhost:5173"},
+		AllowOrigins:     []string{"http://192.168.0.101:5173"},
 		AllowMethods:     []string{echo.GET, echo.POST, echo.PUT, echo.DELETE},
 		AllowHeaders:     []string{echo.HeaderOrigin, echo.HeaderContentType, echo.HeaderAccept, echo.HeaderAuthorization},
 		AllowCredentials: true, // важно, чтобы куки с токеном передавались

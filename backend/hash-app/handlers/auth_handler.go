@@ -113,7 +113,7 @@ func LoginHandler(users *repository.UserRepository) echo.HandlerFunc {
 		})
 
 		// Редирект на ленту
-		return c.Redirect(http.StatusSeeOther, "/feed")
+		return c.Redirect(http.StatusSeeOther, "/api/feed")
 	}
 }
 
