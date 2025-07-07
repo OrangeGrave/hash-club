@@ -27,7 +27,7 @@ const LoginPage = () => {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [rememberMe, setRememberMe] = useState(false);
   const [isPasswordVisible, setIsPasswordVisible] = useState(false);
-  const [contactIcon, setContactIcon] = useState('email'); // Для динамической иконки
+  const [contactIcon, setContactIcon] = useState('email');
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -111,36 +111,33 @@ const LoginPage = () => {
 
     if (isValid) {
       try {
+        console.log('Отправка данных на /login:', formData);
         const response = await api.post('/login', {
           identity: formData.identity,
           password: formData.password,
         });
 
+        console.log('Ответ от сервера:', response.data);
         if (response.status === 200) {
-          const token = Cookies.get('jwt_token');
-          if (token) {
-            localStorage.setItem('isAuthenticated', 'true');
-            localStorage.setItem('currentUser', formData.identity); // Обновите на основе данных от бэкенда, если доступно
+          // Поскольку токен HttpOnly, полагаемся на успешный ответ сервера
+          localStorage.setItem('isAuthenticated', 'true');
+          localStorage.setItem('currentUser', formData.identity);
 
-            if (rememberMe) {
-              localStorage.setItem('rememberedUser', JSON.stringify({
-                identity: formData.identity,
-                password: formData.password,
-              }));
-            } else {
-              localStorage.removeItem('rememberedUser');
-            }
-
-            setTimeout(() => {
-              navigate('/feed');
-              setIsSubmitting(false);
-            }, 1000);
+          if (rememberMe) {
+            localStorage.setItem('rememberedUser', JSON.stringify({
+              identity: formData.identity,
+              password: formData.password,
+            }));
           } else {
-            throw new Error('Токен не найден в куки после логина');
+            localStorage.removeItem('rememberedUser');
           }
+
+          console.log('Переход на /feed');
+          navigate('/feed', { replace: true });
+          setIsSubmitting(false);
         }
       } catch (error) {
-        console.error('Ошибка логина:', error);
+        console.error('Ошибка логина:', error.response ? error.response.data : error.message);
         setErrors({ general: 'Неверный email/телефон или пароль. Попробуйте снова.' });
         setIsSubmitting(false);
       }

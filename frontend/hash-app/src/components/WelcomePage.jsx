@@ -43,7 +43,7 @@ const WelcomePage = () => {
           <Link to="/login" className="welcome-page-button">
             Войти
           </Link>
-          <Link to="/registration" className="welcome-page-button">
+          <Link to="/register" className="welcome-page-button">
             Зарегистрироваться
           </Link>
         </div>
