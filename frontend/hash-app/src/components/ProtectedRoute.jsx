@@ -9,24 +9,29 @@ const ProtectedRoute = ({ children }) => {
   useEffect(() => {
     const checkAuth = async () => {
       try {
-        const response = await api.get('/auth/check'); // Эндпоинт для проверки аутентификации
-        console.log('Проверка аутентификации:', response.data);
+        console.log('Проверка аутентификации на /feed...');
+        const response = await api.get('/feed', {
+          withCredentials: true, // Отправка HttpOnly куки
+        });
+        console.log('Ответ от /feed:', response.status, response.data);
         setIsAuthenticated(response.status === 200);
       } catch (error) {
-        console.error('Ошибка проверки аутентификации:', error);
+        console.error('Ошибка проверки аутентификации:', error.response ? error.response.status : error.message, error.response ? error.response.data : '');
         setIsAuthenticated(false);
       } finally {
         setIsLoading(false);
       }
     };
 
-    checkAuth();
+    // Добавим небольшую задержку, чтобы дать время куки установиться
+    const timer = setTimeout(checkAuth, 500);
+    return () => clearTimeout(timer);
   }, []);
 
-  console.log('ProtectedRoute: isAuthenticated:', isAuthenticated);
+  console.log('ProtectedRoute: isAuthenticated:', isAuthenticated, 'Loading:', isLoading);
 
   if (isLoading) {
-    return <div>Проверка аутентификации...</div>; // Можно заменить на лоадер
+    return <div>Проверка аутентификации...</div>; // Лоадер
   }
 
   return isAuthenticated ? children : <Navigate to="/login" replace />;

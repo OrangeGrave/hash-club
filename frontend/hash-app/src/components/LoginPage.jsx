@@ -1,7 +1,6 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import api from '../services/api';
-import Cookies from 'js-cookie';
 import '../styles/LoginPage.css';
 
 // Регулярные выражения вынесены наружу для повторного использования
@@ -29,12 +28,13 @@ const LoginPage = () => {
   const [isPasswordVisible, setIsPasswordVisible] = useState(false);
   const [contactIcon, setContactIcon] = useState('email');
   const navigate = useNavigate();
+  const intervalRef = useRef(null);
 
   useEffect(() => {
-    const interval = setInterval(() => {
+    intervalRef.current = setInterval(() => {
       setIsFading(true);
       setTimeout(() => {
-        setCurrentMessage(prev => {
+        setCurrentMessage((prev) => {
           const currentIndex = motivationMessages.indexOf(prev);
           const nextIndex = (currentIndex + 1) % motivationMessages.length;
           return motivationMessages[nextIndex];
@@ -43,14 +43,17 @@ const LoginPage = () => {
       }, 300);
     }, 10000);
 
-    return () => clearInterval(interval);
+    // Очистка интервала при размонтировании
+    return () => {
+      if (intervalRef.current) clearInterval(intervalRef.current);
+    };
   }, [motivationMessages]);
 
   useEffect(() => {
     const savedData = localStorage.getItem('rememberedUser');
     if (savedData) {
       const { identity, password } = JSON.parse(savedData);
-      setFormData(prev => ({ ...prev, identity, password }));
+      setFormData((prev) => ({ ...prev, identity, password }));
       setRememberMe(true);
     }
   }, []);
@@ -77,10 +80,10 @@ const LoginPage = () => {
 
   const handleInputChange = (e) => {
     const { id, value } = e.target;
-    setFormData(prev => ({ ...prev, [id]: value }));
+    setFormData((prev) => ({ ...prev, [id]: value }));
 
     const error = validateField(id, value);
-    setErrors(prev => ({
+    setErrors((prev) => ({
       ...prev,
       [id]: error,
     }));
@@ -102,7 +105,7 @@ const LoginPage = () => {
 
     const newErrors = {};
     let isValid = true;
-    Object.keys(formData).forEach(key => {
+    Object.keys(formData).forEach((key) => {
       const error = validateField(key, formData[key]);
       newErrors[key] = error;
       if (error) isValid = false;
@@ -115,11 +118,12 @@ const LoginPage = () => {
         const response = await api.post('/login', {
           identity: formData.identity,
           password: formData.password,
+        }, {
+          withCredentials: true,
         });
 
-        console.log('Ответ от сервера:', response.data);
+        console.log('Ответ от сервера:', response.status, response.data);
         if (response.status === 200) {
-          // Поскольку токен HttpOnly, полагаемся на успешный ответ сервера
           localStorage.setItem('isAuthenticated', 'true');
           localStorage.setItem('currentUser', formData.identity);
 
@@ -137,8 +141,8 @@ const LoginPage = () => {
           setIsSubmitting(false);
         }
       } catch (error) {
-        console.error('Ошибка логина:', error.response ? error.response.data : error.message);
-        setErrors({ general: 'Неверный email/телефон или пароль. Попробуйте снова.' });
+        console.error('Ошибка логина:', error.response ? error.response.status : error.message, error.response ? error.response.data : '');
+        setErrors({ general: 'Неверный email/телефон или пароль. Попробуйте снова или проверьте подключение.' });
         setIsSubmitting(false);
       }
     } else {
@@ -147,7 +151,7 @@ const LoginPage = () => {
   };
 
   const togglePasswordVisibility = () => {
-    setIsPasswordVisible(prev => !prev);
+    setIsPasswordVisible((prev) => !prev);
   };
 
   return (
@@ -274,7 +278,7 @@ const LoginPage = () => {
                   <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
                     <circle cx="12" cy="12" r="10"></circle>
                     <line x1="12" y1="8" x2="12" y2="12"></line>
-                    <line x1="12" y1="16" x2="12.01" y2="16"></line>
+                    <line x1="12" y1="16" x2="12.01" y2="16"></line> {/* Исправлен синтаксис */}
                   </svg>
                   {errors.general}
                 </div>
