@@ -1,0 +1,38 @@
+# backend/docker-compose.yml
+version: '3.8'
+services:
+  db:
+    image: postgres:15
+    restart: always
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: secretpassword
+      POSTGRES_DB: hashapp_db
+    volumes:
+      - db_data:/var/lib/postgresql/data
+
+  backend:
+    build: .
+    restart: on-failure
+    env_file:
+      - .env               # <-- подтягиваем переменные в контейнер
+# Если хотите, чтобы godotenv.Load() нашёл файл:
+    volumes:
+      - ./.env:/.env       # монтируем локальный .env в корень контейнера
+    ports:
+      - "7777:7777"
+    environment:
+      SERVER_PORT: ":7777"
+      JWT_SECRET: "your_jwt_secret_here"
+      JWT_TTL_HOURS: "24"
+      PG_USER: "postgres"
+      PG_PASSWORD: "secretpassword"
+      PG_HOST: "db"
+      PG_PORT: "5432"
+      PG_DB: "hashapp_db"
+      PG_SSLMODE: "disable"
+    depends_on:
+      - db
+
+volumes:
+  db_data:
