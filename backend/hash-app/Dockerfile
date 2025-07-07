@@ -1,4 +1,3 @@
-# backend/Dockerfile
 # ---- Build stage ----
 FROM golang:1.24.2-alpine AS builder
 WORKDIR /app
@@ -17,10 +16,8 @@ FROM alpine:latest
 RUN apk add --no-cache ca-certificates
 
 WORKDIR /root/
-# копируем бинарь
 COPY --from=builder /app/server .
 
-# порт вашего приложения
 EXPOSE 7777
 
 ENTRYPOINT ["./server"]

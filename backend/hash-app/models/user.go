@@ -6,7 +6,6 @@ import (
 	"gorm.io/gorm"
 )
 
-// User представляет структуру пользователя в PostgreSQL через GORM.
 type User struct {
 	ID           uint           `gorm:"primaryKey;autoIncrement" json:"id"`
 	Username     string         `gorm:"type:varchar(100);uniqueIndex;not null" json:"username"`

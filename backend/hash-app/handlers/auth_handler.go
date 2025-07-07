@@ -1,4 +1,3 @@
-// handlers/auth_handler.go
 package handlers
 
 import (
@@ -90,19 +89,17 @@ func LoginHandler(users *repository.UserRepository) echo.HandlerFunc {
 			return c.JSON(http.StatusUnauthorized, echo.Map{"error": "Неверные учётные данные"})
 		}
 
-		// Генерация JWT
 		claims := jwt.MapClaims{
 			"user_id":  user.ID,
 			"username": user.Username,
 			"exp":      time.Now().Add(time.Hour * 72).Unix(),
 		}
 		token := jwt.NewWithClaims(jwt.SigningMethodHS256, claims)
-		signed, err := token.SignedString([]byte(config.JwtSecret)) // <- передаём ключ как []byte
+		signed, err := token.SignedString([]byte(config.JwtSecret))
 		if err != nil {
 			return c.JSON(http.StatusInternalServerError, echo.Map{"error": "Не удалось сгенерировать токен"})
 		}
 
-		// Устанавливаем cookie
 		c.SetCookie(&http.Cookie{
 			Name:     "jwt_token",
 			Value:    signed,
@@ -112,7 +109,6 @@ func LoginHandler(users *repository.UserRepository) echo.HandlerFunc {
 			Expires:  time.Now().Add(config.TokenTTL),
 		})
 
-		// Редирект на ленту
 		return c.Redirect(http.StatusSeeOther, "/api/feed")
 	}
 }

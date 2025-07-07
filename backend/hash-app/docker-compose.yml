@@ -15,10 +15,9 @@ services:
     build: .
     restart: on-failure
     env_file:
-      - .env               # <-- подтягиваем переменные в контейнер
-# Если хотите, чтобы godotenv.Load() нашёл файл:
+      - .env             
     volumes:
-      - ./.env:/.env       # монтируем локальный .env в корень контейнера
+      - ./.env:/.env
     ports:
       - "7777:7777"
     environment:
