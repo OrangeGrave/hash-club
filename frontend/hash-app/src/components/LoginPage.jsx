@@ -118,6 +118,7 @@ const LoginPage = () => {
 
         if (response.status === 200) {
           const token = Cookies.get('jwt_token');
+          console.log(token)
           if (token) {
             localStorage.setItem('isAuthenticated', 'true');
             localStorage.setItem('currentUser', formData.identity); // Обновите на основе данных от бэкенда, если доступно
