@@ -33,16 +33,16 @@ services:
     depends_on:
       - db
 
-  frontend:
-    build:
-      context: ../frontend # Путь к папке фронтенда
-      dockerfile: Dockerfile
-    ports:
-      - "5173:5173"
-    depends_on:
-      - backend
-    environment:
-      - VITE_API_URL=http://localhost:7773/api # Переменная окружения для фронтенда
+  # frontend:
+  #   build:
+  #     context: ../frontend # Путь к папке фронтенда
+  #     dockerfile: Dockerfile
+  #   ports:
+  #     - "5173:5173"
+  #   depends_on:
+  #     - backend
+  #   environment:
+  #     - VITE_API_URL=http://localhost:7773/api # Переменная окружения для фронтенда
 
 volumes:
   db_data:

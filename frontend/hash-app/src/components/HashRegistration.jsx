@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
+import api from '../services/api'; // Убедитесь, что файл api.js существует
 import '../styles/HashRegistration.css';
 
 const HashRegistration = () => {
@@ -121,13 +122,14 @@ const HashRegistration = () => {
     }
   };
 
+
   // Переключение видимости пароля
   const togglePasswordVisibility = () => {
     setIsPasswordVisible(prev => !prev);
   };
 
   // Обработка отправки формы
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     setIsSubmitting(true);
 
@@ -144,20 +146,26 @@ const HashRegistration = () => {
     setErrors(newErrors);
 
     if (isValid) {
-      // Сохранение данных в localStorage (без пароля в реальном приложении!)
-      const users = JSON.parse(localStorage.getItem('users') || '[]');
-      users.push({
-        username: formData.username,
-        contact: formData.contact,
-        // Пароль не сохраняется в реальном приложении
-      });
-      localStorage.setItem('users', JSON.stringify(users));
-      localStorage.setItem('isAuthenticated', 'true');
-      localStorage.setItem('currentUser', formData.username);
-      setTimeout(() => {
-        navigate('/login');
+      try {
+        console.log('Отправка данных на /register:', formData);
+        const response = await api.post('/register', {
+          username: formData.username,
+          identity: formData.contact, // contact маппится на identity для бэкенда
+          password: formData.password,
+          passwordConfirm: formData.confirmPassword,
+        });
+
+        console.log('Ответ от сервера:', response);
+        if (response.status === 201) {
+          alert('Регистрация успешна! Можете войти.');
+          navigate('/login');
+        }
+      } catch (error) {
+        console.error('Ошибка регистрации:', error.response ? error.response.data : error.message);
+        setErrors({ general: 'Ошибка регистрации. Попробуйте снова.' });
+      } finally {
         setIsSubmitting(false);
-      }, 1000); // Имитация задержки сервера
+      }
     } else {
       setIsSubmitting(false);
     }
