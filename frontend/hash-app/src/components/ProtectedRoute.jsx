@@ -1,10 +1,9 @@
-import React, { useState, useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Navigate } from 'react-router-dom';
 import api from '../services/api';
 
 const ProtectedRoute = ({ children }) => {
-  const [isAuthenticated, setIsAuthenticated] = useState(false);
-  const [isLoading, setIsLoading] = useState(true);
+  const [isAuthenticated, setIsAuthenticated] = useState(true); // Предполагаем аутентификацию
 
   useEffect(() => {
     const checkAuth = async () => {
@@ -18,23 +17,19 @@ const ProtectedRoute = ({ children }) => {
       } catch (error) {
         console.error('Ошибка проверки аутентификации:', error.response ? error.response.status : error.message, error.response ? error.response.data : '');
         setIsAuthenticated(false);
-      } finally {
-        setIsLoading(false);
       }
     };
 
-    // Добавим небольшую задержку, чтобы дать время куки установиться
-    const timer = setTimeout(checkAuth, 500);
-    return () => clearTimeout(timer);
+    // Проверяем аутентификацию в фоне
+    checkAuth();
   }, []);
 
-  console.log('ProtectedRoute: isAuthenticated:', isAuthenticated, 'Loading:', isLoading);
-
-  if (isLoading) {
-    return <div>Проверка аутентификации...</div>; // Лоадер
+  // Мгновенный рендер без лоадера, редирект только если проверка провалится
+  if (!isAuthenticated) {
+    return <Navigate to="/login" replace />;
   }
 
-  return isAuthenticated ? children : <Navigate to="/login" replace />;
+  return children;
 };
 
 export default ProtectedRoute;

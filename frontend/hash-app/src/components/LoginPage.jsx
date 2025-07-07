@@ -43,7 +43,6 @@ const LoginPage = () => {
       }, 300);
     }, 10000);
 
-    // Очистка интервала при размонтировании
     return () => {
       if (intervalRef.current) clearInterval(intervalRef.current);
     };
@@ -124,19 +123,7 @@ const LoginPage = () => {
 
         console.log('Ответ от сервера:', response.status, response.data);
         if (response.status === 200) {
-          localStorage.setItem('isAuthenticated', 'true');
-          localStorage.setItem('currentUser', formData.identity);
-
-          if (rememberMe) {
-            localStorage.setItem('rememberedUser', JSON.stringify({
-              identity: formData.identity,
-              password: formData.password,
-            }));
-          } else {
-            localStorage.removeItem('rememberedUser');
-          }
-
-          console.log('Переход на /feed');
+          // Убедитесь, что navigate происходит до рендера ProtectedRoute
           navigate('/feed', { replace: true });
           setIsSubmitting(false);
         }
@@ -278,7 +265,7 @@ const LoginPage = () => {
                   <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
                     <circle cx="12" cy="12" r="10"></circle>
                     <line x1="12" y1="8" x2="12" y2="12"></line>
-                    <line x1="12" y1="16" x2="12.01" y2="16"></line> {/* Исправлен синтаксис */}
+                    <line x1="12" y1="16" x2="12.01" y2="16"></line>
                   </svg>
                   {errors.general}
                 </div>
