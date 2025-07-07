@@ -109,7 +109,7 @@ func LoginHandler(users *repository.UserRepository) echo.HandlerFunc {
 			Expires:  time.Now().Add(config.TokenTTL),
 		})
 
-		return c.JSON(http.StatusOK, echo.Map{"token": signed, "message": "Login successful"})
+		return c.JSON(http.StatusOK, echo.Map{"jwt_token": signed, "message": "Login successful"})
 	}
 }
 
