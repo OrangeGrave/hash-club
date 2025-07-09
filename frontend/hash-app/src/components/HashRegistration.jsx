@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import api from '../services/api';
+import { register } from '../services/api';
 import '../styles/HashRegistration.css';
 
 const HashRegistration = () => {
@@ -15,7 +15,7 @@ const HashRegistration = () => {
   const [isFading, setIsFading] = useState(false);
   const [form, setForm] = useState({
     username: '',
-    contact: '',
+    identity: '',
     password: '',
     confirmPassword: '',
   });
@@ -37,13 +37,13 @@ const HashRegistration = () => {
 
   const validate = (key, val, all = form) => {
     const emailRe = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    const phoneRe = /^[+]?[\d\s\-()]+$/;
+    const phoneRe = /^[+]?\d[\d\s\-()]+$/;
     if (!val.trim()) return 'Обязательно';
     if (key === 'username') {
       if (val.length < 3) return 'Минимум 3 символа';
       if (!/^[\w]+$/.test(val)) return 'Только буквы, цифры, _';
     }
-    if (key === 'contact') {
+    if (key === 'identity') {
       if (val.includes('@') && !emailRe.test(val)) return 'Некорректный email';
       if (!val.includes('@') && (!phoneRe.test(val) || val.replace(/\D/g, '').length < 10))
         return 'Некорректный телефон';
@@ -59,7 +59,7 @@ const HashRegistration = () => {
     const next = { ...form, [key]: value };
     setForm(next);
     setErrors(prev => ({ ...prev, [key]: validate(key, value, next) }));
-    if (key === 'contact') {
+    if (key === 'identity') {
       setContactIcon(value.includes('@') ? 'email' : 'phone');
     }
   };
@@ -80,13 +80,8 @@ const HashRegistration = () => {
     setErrors(prev => ({ ...prev, general: '' }));
 
     try {
-      const res = await api.post('/register', {
-        username: form.username,
-        identity: form.contact,
-        password: form.password,
-        passwordConfirm: form.confirmPassword,
-      });
-      if (res.status === 201) {
+      const { status } = await register(form);
+      if (status === 201 || status === 200) {
         alert('Успешно зарегистрированы');
         navigate('/login');
       }
@@ -147,14 +142,14 @@ const HashRegistration = () => {
               )}
             </span>
             <input
-              id="contact"
+              id="identity"
               type="text"
-              className={`field-input ${errors.contact ? 'error' : form.contact ? 'success' : ''}`}
+              className={`field-input ${errors.identity ? 'error' : form.identity ? 'success' : ''}`}
               placeholder="Email или телефон"
-              value={form.contact}
+              value={form.identity}
               onChange={onChange}
             />
-            {errors.contact && <div className="error-text-small">{errors.contact}</div>}
+            {errors.identity && <div className="error-text-small">{errors.identity}</div>}
           </div>
 
           {/* Password */}

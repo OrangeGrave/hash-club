@@ -1,38 +1,40 @@
+// src/components/ProtectedRoute.jsx
 import React, { useEffect, useState } from 'react';
-import { Navigate, useLocation } from 'react-router-dom';
-import api from '../services/api';
+import { Navigate } from 'react-router-dom';
+import { getFeed } from '../services/api';
 
 const ProtectedRoute = ({ children }) => {
-  const location = useLocation();
   const [isAuthenticated, setIsAuthenticated] = useState(null);
 
   useEffect(() => {
     const checkAuth = async () => {
       try {
-        const response = await api.get('/feed', { withCredentials: true });
-        setIsAuthenticated(response.status === 200);
+        await getFeed();
+        setIsAuthenticated(true);
       } catch {
         setIsAuthenticated(false);
       }
     };
-
     checkAuth();
-  }, [location.pathname]);
+  }, []);
 
   if (isAuthenticated === null) {
-    // мгновенно показываем оверлей-заглушку
     return (
       <div
         style={{
           position: 'fixed',
-          top: 0,
-          left: 0,
-          width: '100vw',
-          height: '100vh',
-          background: '#111', // можно любой цвет
+          top: 0, left: 0,
+          width: '100vw', height: '100vh',
+          backgroundColor: '#111',
+          display: 'flex',
+          justifyContent: 'center',
+          alignItems: 'center',
+          color: '#fff',
           zIndex: 9999,
         }}
-      />
+      >
+        Загрузка...
+      </div>
     );
   }
 

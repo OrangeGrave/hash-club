@@ -1,5 +1,7 @@
+// src/pages/LoginPage.jsx
 import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
+import api from '../services/apiClient'; // ✅ импорт API клиента
 import '../styles/LoginPage.css';
 
 const LoginPage = () => {
@@ -8,24 +10,34 @@ const LoginPage = () => {
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
 
-  const handleChange = e => {
+  const handleChange = (e) => {
     const { name, type, checked, value } = e.target;
-    setForm(prev => ({ ...prev, [name]: type === 'checkbox' ? checked : value }));
+    setForm((prev) => ({ ...prev, [name]: type === 'checkbox' ? checked : value }));
     if (error) setError('');
   };
 
-  const handleSubmit = async e => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
+
     if (!form.username || !form.password) {
       setError('Пожалуйста, заполните все поля');
       return;
     }
+
     setLoading(true);
+    setError('');
+
     try {
-      await new Promise(r => setTimeout(r, 1000));
+      await api.post('/login', {
+        username: form.username,
+        password: form.password,
+      });
+
+      // Если успешный ответ — переходим
       navigate('/feed');
-    } catch {
-      setError('Неверное имя или пароль');
+    } catch (err) {
+      const msg = err.response?.data?.error || 'Ошибка при входе';
+      setError(msg);
     } finally {
       setLoading(false);
     }
@@ -49,7 +61,7 @@ const LoginPage = () => {
               className={`field-input ${error && !form.username ? 'error' : ''}`}
               value={form.username}
               onChange={handleChange}
-              placeholder="Логин"
+              placeholder="Имя пользователя"
             />
           </div>
 

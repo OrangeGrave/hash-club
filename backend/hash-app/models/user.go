@@ -14,5 +14,5 @@ type User struct {
 	PasswordHash string         `gorm:"type:varchar(255);not null" json:"-"`
 	CreatedAt    time.Time      `gorm:"autoCreateTime" json:"created"`
 	UpdatedAt    time.Time      `gorm:"autoUpdateTime" json:"-"`
-	DeletedAt    gorm.DeletedAt `gorm:"index" json:"-"`
+	DeletedAt    gorm.DeletedAt `gorm:"-" json:"-"`
 }

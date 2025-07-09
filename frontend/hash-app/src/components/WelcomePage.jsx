@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
+import { motion, AnimatePresence } from 'framer-motion';
 import '../styles/WelcomePage.css';
 
 const WelcomePage = () => {
@@ -11,33 +12,18 @@ const WelcomePage = () => {
     'Стань частью сообщества HASH',
   ];
 
-  const [currentMessage, setCurrentMessage] = useState(motivationMessages[0]);
-  const [isFading, setIsFading] = useState(false);
+  const [currentIndex, setCurrentIndex] = useState(0);
   const [hoveredLetter, setHoveredLetter] = useState(null);
 
   useEffect(() => {
     const interval = setInterval(() => {
-      setIsFading(true);
-      setTimeout(() => {
-        setCurrentMessage(prev => {
-          const currentIndex = motivationMessages.indexOf(prev);
-          const nextIndex = (currentIndex + 1) % motivationMessages.length;
-          return motivationMessages[nextIndex];
-        });
-        setIsFading(false);
-      }, 300);
+      setCurrentIndex(prev => (prev + 1) % motivationMessages.length);
     }, 10000);
-
     return () => clearInterval(interval);
-  }, [motivationMessages]);
+  }, []);
 
-  const handleLetterEnter = (index) => {
-    setHoveredLetter(index);
-  };
-
-  const handleLetterLeave = () => {
-    setHoveredLetter(null);
-  };
+  const handleLetterEnter = (index) => setHoveredLetter(index);
+  const handleLetterLeave = () => setHoveredLetter(null);
 
   return (
     <div className="welcome-page">
@@ -50,38 +36,35 @@ const WelcomePage = () => {
       <div className="welcome-page-container">
         <div className="welcome-page-header">
           <h1 className="welcome-page-title">
-            <span
-              className={`letter letter-h ${hoveredLetter === 0 ? 'hovered' : ''}`}
-              onMouseEnter={() => handleLetterEnter(0)}
-              onMouseLeave={handleLetterLeave}
-            >
-              H
-            </span>
-            <span
-              className={`letter letter-a ${hoveredLetter === 1 ? 'hovered' : ''}`}
-              onMouseEnter={() => handleLetterEnter(1)}
-              onMouseLeave={handleLetterLeave}
-            >
-              A
-            </span>
-            <span
-              className={`letter letter-s ${hoveredLetter === 2 ? 'hovered' : ''}`}
-              onMouseEnter={() => handleLetterEnter(2)}
-              onMouseLeave={handleLetterLeave}
-            >
-              S
-            </span>
-            <span
-              className={`letter letter-h2 ${hoveredLetter === 3 ? 'hovered' : ''}`}
-              onMouseEnter={() => handleLetterEnter(3)}
-              onMouseLeave={handleLetterLeave}
-            >
-              H
-            </span>
+            {['H', 'A', 'S', 'H'].map((letter, i) => (
+              <span
+                key={i}
+                className={`letter letter-${letter.toLowerCase()} ${
+                  hoveredLetter === i ? 'hovered' : ''
+                }`}
+                onMouseEnter={() => handleLetterEnter(i)}
+                onMouseLeave={handleLetterLeave}
+              >
+                {letter}
+              </span>
+            ))}
           </h1>
-          <p className={`welcome-page-motivation ${isFading ? 'fade' : 'visible'}`}>
-            {currentMessage}
-          </p>
+
+          <div style={{ position: 'relative', height: 30, marginTop: 10 }}>
+            <AnimatePresence mode="wait" initial={false}>
+              <motion.p
+                key={currentIndex}
+                initial={{ opacity: 0, y: 10 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0, y: -10 }}
+                transition={{ duration: 0.8 }}
+                className="welcome-page-motivation"
+                style={{ position: 'absolute', width: '100%' }}
+              >
+                {motivationMessages[currentIndex]}
+              </motion.p>
+            </AnimatePresence>
+          </div>
         </div>
 
         <div className="welcome-page-buttons">

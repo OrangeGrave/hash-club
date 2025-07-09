@@ -21,7 +21,7 @@ type registerReq struct {
 }
 
 type loginReq struct {
-	Identity string `json:"identity" validate:"required"`
+	Username string `json:"username" validate:"required"`
 	Password string `json:"password" validate:"required"`
 }
 
@@ -81,7 +81,7 @@ func LoginHandler(users *repository.UserRepository) echo.HandlerFunc {
 		}
 
 		ctx := c.Request().Context()
-		user, err := users.FindByIdentity(ctx, req.Identity)
+		user, err := users.FindByIdentity(ctx, req.Username)
 		if err != nil {
 			return c.JSON(http.StatusUnauthorized, echo.Map{"error": "Неверные учётные данные"})
 		}
